@@ -8,7 +8,13 @@ import h5py
 import numpy as np
 import webrtcvad
 
-path = '../LibreSpeech_Corpus'
+if (os.uname()[1] == 'lucas-FX503VD'):
+    print('ON LAPTOP')
+    path = '/home/lucas/PycharmProjects/Papers_with_code/data'
+else:
+    print('ON TEAPOT')
+    path = '/home/lucvanwyk/Papers_with_code'
+
 os.chdir(path)
 print('Directory is set to ', os.getcwd())
 
@@ -57,7 +63,7 @@ class FileManager:
     def __init__(self, name, directory):
 
         self.name = name
-        self.data = h5py.File(DATA_FOLDER + '/' + name + '.hdf5', 'a')
+        self.data = h5py.File(name + '.hdf5', 'a')
 
         # Setup file names.
         if 'files' not in self.data:
@@ -65,6 +71,7 @@ class FileManager:
             # Get files.
             files = glob.glob(directory + '/**/*.wav', recursive=True)
             files.extend(glob.glob(directory + '/**/*.flac', recursive=True))
+
             files = [f for f in files]
 
             # Setup data set.
