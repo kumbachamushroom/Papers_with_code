@@ -13,7 +13,7 @@ if (os.uname()[1] == 'lucas-FX503VD'):
     path = '/home/lucas/PycharmProjects/Papers_with_code/data'
 else:
     print('ON TEAPOT')
-    path = '/home/lucvanwyk/Papers_with_code'
+    path = '/home/lucvanwyk/Papers_with_code/data'
 
 os.chdir(path)
 print('Directory is set to ', os.getcwd())
