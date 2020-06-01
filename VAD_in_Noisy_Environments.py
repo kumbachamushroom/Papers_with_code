@@ -306,8 +306,6 @@ if 'labels' not in data:
     # Add remainder to last slice.
     slices[-1] = (slices[-1][0], l)
 
-    pos = 0
-
     # Add random silence (50%) to the track within the given slice length.
     while pos + SLICE_MIN < l:
         length = np.random.randint(SLICE_MIN, SLICE_MAX + 1)
@@ -1576,30 +1574,30 @@ if OBJ_TRAIN_MODELS:
     net = Net(large=False)
     train_net(net, data, title='net', gamma=0)
 
-#    # LSTM, large, γ = 2
-#    set_seed()
-#    net_large = Net()
-#    train_net(net_large, data, title='net_large', gamma=2)
+    # LSTM, large, γ = 2
+    set_seed()
+    net_large = Net()
+    train_net(net_large, data, title='net_large', gamma=2)
 
     # Conv + GRU, small, γ = 2
-#    set_seed()
-#    gru = NickNet(large=False)
-#    train_net(gru, data, title='gru', gamma=2)
+    set_seed()
+    gru = NickNet(large=False)
+    train_net(gru, data, title='gru', gamma=2)
 
     # Conv + GRU, large, γ = 2
-#    set_seed()
-#    gru_large = NickNet()
-#    train_net(gru_large, data, title='gru_large', gamma=2)
+    set_seed()
+    gru_large = NickNet()
+    train_net(gru_large, data, title='gru_large', gamma=2)
 
     # DenseNet, small, γ = 2
-#    set_seed()
-#    densenet = DenseNet(large=False)
-#    train_net(densenet, data, title='densenet', use_adam=False, lr=1, momentum=0.7, gamma=2)
+    set_seed()
+    densenet = DenseNet(large=False)
+    train_net(densenet, data, title='densenet', use_adam=False, lr=1, momentum=0.7, gamma=2)
 
     # DenseNet, large, γ = 2
-#    set_seed()
-#    densenet_large = DenseNet(large=True)
-#    train_net(densenet, data, title='densenet_large', use_adam=False, lr=1, momentum=0.7, gamma=2)
+    set_seed()
+    densenet_large = DenseNet(large=True)
+    train_net(densenet, data, title='densenet_large', use_adam=False, lr=1, momentum=0.7, gamma=2)
 
 else:
 
@@ -1615,29 +1613,29 @@ print('\nROC Curves:')
 
 roc_auc({
     'RNN': net,
-    #'RNN (large)': net_large,
-    #'Conv + RNN': gru,
-    #'Conv + RNN (large)': gru_large,
-    #'DenseNet': densenet,
-    #'DenseNet (large)': densenet_large
+    'RNN (large)': net_large,
+    'Conv + RNN': gru,
+    'Conv + RNN (large)': gru_large,
+    'DenseNet': densenet,
+    'DenseNet (large)': densenet_large
 }, data, 'None')
 
 roc_auc({
     'RNN': net,
-    #'RNN (large)': net_large,
-    #'Conv + RNN': gru,
-    #'Conv + RNN (large)': gru_large,
-    #'DenseNet': densenet,
-    #'DenseNet (large)': densenet_large
+    'RNN (large)': net_large,
+    'Conv + RNN': gru,
+    'Conv + RNN (large)': gru_large,
+    'DenseNet': densenet,
+    'DenseNet (large)': densenet_large
 }, data, '-15')
 
 roc_auc({
     'RNN': net,
-    #'RNN (large)': net_large,
-    #'Conv + RNN': gru,
-    #'Conv + RNN (large)': gru_large,
-    #'DenseNet': densenet,
-    #'DenseNet (large)': densenet_large
+    'RNN (large)': net_large,
+    'Conv + RNN': gru,
+    'Conv + RNN (large)': gru_large,
+    'DenseNet': densenet,
+    'DenseNet (large)': densenet_large
 }, data, '-3')
 
 # Fixed FRR
@@ -1646,20 +1644,20 @@ print('\nFixed FRR:')
 print('\nnet:')
 far(net, data, frr=1)
 
-#print('\nnet_large:')
-#far(net_large, data, frr=1)
+print('\nnet_large:')
+far(net_large, data, frr=1)
 
-#print('\ngru:')
-#far(gru, data, frr=1)
+print('\ngru:')
+far(gru, data, frr=1)
 
-#print('\ngru_large:')
-#far(gru_large, data, frr=1)
+print('\ngru_large:')
+far(gru_large, data, frr=1)
 
-#print('\ndensenet:')
-#far(densenet, data, frr=1)
+print('\ndensenet:')
+far(densenet, data, frr=1)
 
-#print('\ndensenet_large:')
-#far(densenet_large, data, frr=1)
+print('\ndensenet_large:')
+far(densenet_large, data, frr=1)
 
 # Qualitative results
 print('\nQualitative results:')
@@ -1667,20 +1665,20 @@ print('\nQualitative results:')
 print('\nnet:')
 netvad(net, data, only_plot_net=False)
 
-#print('\nnet_large:')
-#netvad(net_large, data, only_plot_net=True)
+print('\nnet_large:')
+netvad(net_large, data, only_plot_net=True)
 
-#print('\ngru:')
-#netvad(gru, data, only_plot_net=True)
+print('\ngru:')
+netvad(gru, data, only_plot_net=True)
 
-#print('\ngru_large:')
-#netvad(gru_large, data, only_plot_net=True)
+print('\ngru_large:')
+netvad(gru_large, data, only_plot_net=True)
 
-#print('\ndensenet:')
-#netvad(densenet, data, only_plot_net=True)
+print('\ndensenet:')
+netvad(densenet, data, only_plot_net=True)
 
-#print('\ndensenet_large:')
-#netvad(densenet_large, data, only_plot_net=True)
+print('\ndensenet_large:')
+netvad(densenet_large, data, only_plot_net=True)
 
 
 def webrtc_vad_accuracy(data, sensitivity, noise_level):
@@ -1714,8 +1712,7 @@ print('Accuracy (sensitivity 0, -3 dB noise level):', webrtc_vad_accuracy(data, 
 
 print('Accuracy (sensitivity 1, no noise):', webrtc_vad_accuracy(data, 1, 'None'))
 print('Accuracy (sensitivity 1, -15 dB noise level):', webrtc_vad_accuracy(data, 1, '-15'))
-print('Accuracy (sensitivity 1, -3 dB noise level):', webrtc_vad_accuracy(data, 1, '-3'))
-
+print('Accuracy (sensitivity 1, -3 dB noise level):', webrtc_vad_accuracy(data, 1, '-3
 print('Accuracy (sensitivity 2, no noise):', webrtc_vad_accuracy(data, 2, 'None'))
 print('Accuracy (sensitivity 2, -15 dB noise level):', webrtc_vad_accuracy(data, 2, '-15'))
 print('Accuracy (sensitivity 2, -3 dB noise level):', webrtc_vad_accuracy(data, 2, '-3'))
