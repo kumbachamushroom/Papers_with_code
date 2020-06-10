@@ -2,7 +2,7 @@
 #!/usr/bin/env python3
 
 # This program takes a series of XML-formatted files and creates an
-# RTTM v1.3 (https://catalog.ldc.upenn.edu/docs/LDC2004T12/RTTM-format-v13.pdf)
+    # RTTM v1.3 (https://catalog.ldc.upenn.edu/docs/LDC2004T12/RTTM-format-v13.pdf)
 # output file.
 
 # Typical invocation:
@@ -45,5 +45,6 @@ def convert_xml_to_rttm():
 
 
 xml_files = sys.argv[1:]
+
 for xml_file_index in range(len(xml_files)):
     convert_xml_to_rttm()

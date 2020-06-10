@@ -523,6 +523,7 @@ class DataGenerator:
         self.initial_pos = self.test_index
         self.data_mode = 2
 
+
     def get_data(self, index_from, index_to):
         frames = self.data['frames-' + self.noise_level][index_from: index_to]
         mfcc = self.data['mfcc-' + self.noise_level][index_from: index_to]
@@ -1712,7 +1713,7 @@ print('Accuracy (sensitivity 0, -3 dB noise level):', webrtc_vad_accuracy(data, 
 
 print('Accuracy (sensitivity 1, no noise):', webrtc_vad_accuracy(data, 1, 'None'))
 print('Accuracy (sensitivity 1, -15 dB noise level):', webrtc_vad_accuracy(data, 1, '-15'))
-print('Accuracy (sensitivity 1, -3 dB noise level):', webrtc_vad_accuracy(data, 1, '-3
+print('Accuracy (sensitivity 1, -3 dB noise level):', webrtc_vad_accuracy(data, 1, '-3'))
 print('Accuracy (sensitivity 2, no noise):', webrtc_vad_accuracy(data, 2, 'None'))
 print('Accuracy (sensitivity 2, -15 dB noise level):', webrtc_vad_accuracy(data, 2, '-15'))
 print('Accuracy (sensitivity 2, -3 dB noise level):', webrtc_vad_accuracy(data, 2, '-3'))
