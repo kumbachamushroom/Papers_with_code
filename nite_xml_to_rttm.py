@@ -27,8 +27,21 @@ def write_rttm_file(path_rttm,file,path_xml):
     lines = []
     xml_trees = []
     xml_files = glob.glob(path_xml+file+'.*.words.xml', recursive=True)
+    speaker_names = []
+    #for file in xml_files:
+        #filename = str(file)
+        #speaker_names.append(strfile[1:10])
+        #print(file[-13:-12])
+        #speaker_names.append(filename[filename.index('.')+1:filename.index('.')+2])
+
+    #print(speaker_names)
     def convert_xml_to_rttm(filename):
         xml_file = xml_files[xml_file_index]
+        file = str(xml_file)
+        #print(filename)
+        #speaker_name = file[file.index('.')+1:file.index('.')+2]
+        speaker_name = str(xml_file)[str(xml_file).index('.')+1:str(xml_file).index('.')+2]
+        #print(speaker_name)
         tree = ET.parse(xml_file)
         root = tree.getroot()
         xml_trees.append(root)
@@ -45,13 +58,13 @@ def write_rttm_file(path_rttm,file,path_xml):
                 else:
                     lines.append({'type': 'SPEAKER', 'file': filename, 'Channel': 1, 'starttime': float(start_time),
                                   'duration': float(end_time) - float(start_time), 'ortho': '<NA>', 'stype': '<NA>',
-                                  'speaker': 'Speaker_' + str(xml_file_index), 'conf': '<NA>'})
+                                  'speaker': 'Speaker_' + speaker_name, 'conf': '<NA>'})
                     start_time = float(element.attrib['starttime'])
                     end_time = float(element.attrib['endtime'])
         if not ((start_time is None) or (end_time is None)):
             lines.append({'type': 'SPEAKER', 'file': filename, 'Channel': 1, 'starttime': float(start_time),
                           'duration': float(end_time) - float(start_time), 'ortho': '<NA>', 'stype': '<NA>',
-                          'speaker': 'Speaker_' + str(xml_file_index), 'conf': '<NA>'})
+                          'speaker': 'Speaker_' + speaker_name, 'conf': '<NA>'})
     for xml_file_index in (range(len(xml_files))):
         convert_xml_to_rttm(filename=file)
     os.chdir(path_rttm)
