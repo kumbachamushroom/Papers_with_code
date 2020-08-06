@@ -17,11 +17,11 @@ class Generate_Triplet_List:
         self.track_list = track_list
         self.save_path = save_path
 
-       # for track in track_list:
-       #     self.extract_speech(track = track, labels = get_speaker_labels(xml_path='/home/lucas/PycharmProjects/Papers_with_code/data/AMI/corpusResources/meetings.xml'))
-        #track_list = glob.glob(self.save_path+'/*', recursive=True)
-        #for track in track_list:
-        #    self.label_speech(track = track, labels=get_speaker_labels(xml_path='/home/lucas/PycharmProjects/Papers_with_code/data/AMI/corpusResources/meetings.xml'), snippet_length=3)
+        for track in track_list:
+            self.extract_speech(track = track, labels = get_speaker_labels(xml_path='/home/lucas/PycharmProjects/Papers_with_code/data/AMI/corpusResources/meetings.xml'))
+        track_list = glob.glob(self.save_path+'/*', recursive=True)
+        for track in track_list:
+            self.label_speech(track = track, labels=get_speaker_labels(xml_path='/home/lucas/PycharmProjects/Papers_with_code/data/AMI/corpusResources/meetings.xml'), snippet_length=3)
         self.trim_samples(max_samples=80)
 
     def extract_speech(self, track, labels):
@@ -52,7 +52,8 @@ class Generate_Triplet_List:
         print(track)
         filename = track[track.rfind('/') + 1:]
         path = track
-        speaker_label = track[track.rfind('_')+1:track.rfind('.')-1]
+        speaker_label = track[track.rfind('_')+1:track.rfind('.')]
+        print(speaker_label)
         track, sample_rate = torchaudio.load(path)
         num_samples = floor(len(track[0])/(snippet_length*sample_rate))
         f = open(self.save_path+'/sample_list.txt', 'a')
@@ -79,6 +80,7 @@ class Generate_Triplet_List:
         for i in enumerate(trimmed_samples):
             #unique_speakers = list(unique_speakers)
             shuffle(trimmed_samples)
+            trimmed_samples
             f.write(
                 trimmed_samples[i[0]][0] + "\t" + trimmed_samples[i[0]][1] + "\t" + str(list(unique_speakers).index(trimmed_samples[i[0]][1]))+ "\t" + trimmed_samples[i[0]][2] + "\t" +
                 trimmed_samples[i[0]][3] + "\n")
