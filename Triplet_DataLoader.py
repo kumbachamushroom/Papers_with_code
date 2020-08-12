@@ -125,7 +125,6 @@ class Triplet_Time_Loader:
     def __init__(self, path, train=True):
         self.path = path
         self.samples = []
-        triplet_list = open(self.path)
         self.samples = [(line.split()[0], line.split()[1], line.split()[2], line.split()[3], line.split()[4]) for line in open(self.path)]
         shuffle(self.samples)
         shuffle(self.samples)
@@ -147,10 +146,35 @@ class Triplet_Time_Loader:
     def __len__(self):
         return len(self.samples)
 
+class Single_Speaker_Loader:
+    """
+        The Single_Speaker_Loader class is used to load samples from a SINGLE SPECIFIED SPEAKER
+        path: Path to the sample list (txt file)
+        speaker: Label of desired speaker
+    """
+    def __init__(self,path, speaker):
+        self.path = path
+        self.samples = [(line.split()[0], line.split()[1], line.split()[2], line.split()[3], line.split()[4]) for line in open(self.path)]
+        self.samples = [sample for sample in self.samples if (sample[1] == speaker)]
+
+    def __getitem__(self, index):
+        sample, string_label, int_label, start_time, stop_time = self.samples[index][0], self.samples[index][1], int(
+            self.samples[index][2]), int(self.samples[index][3]), int(self.samples[index][4])
+        track, sample_rate = torchaudio.load(sample)
+        track = track[0][(start_time * sample_rate):(stop_time * sample_rate)]
+        track = track.view(1, -1)
+        spectrogram = torchaudio.transforms.Spectrogram(normalized=True, power=1, n_fft=400, hop_length=100)(track)
+        return spectrogram, torch.tensor(int_label), string_label
+
+    def __len__(self):
+        return len(self.samples)
+
+
+
+
 
 
 #test = Triplet_Time_Loader(path=os.path.join('/home/lucas/PycharmProjects/Papers_with_code/data/AMI/amicorpus_individual/Extracted_Speech','trimmed_sample_list.txt'))
 #print(test.__getitem__(1))
-
 
 

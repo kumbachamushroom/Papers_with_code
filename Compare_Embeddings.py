@@ -32,16 +32,16 @@ def Plot_Results(df_true,df_model):
     speaker_labels = df_true.index.values
     for speaker in speaker_labels:
         fig,ax  = plt.subplots()
-        labels = df_true.loc['MEO069',:].values[0:2000]
+        labels = df_true.loc[speaker,:].values[0:1000]
         timestamps = np.where(labels == 1)
         labels = labels[labels == 1]
         plt.plot(timestamps[0], labels, 'o', label=speaker+'_truth')
 
-        labels = df_model.loc['MEO069',:].values[0:2000]
+        labels = df_model.loc[speaker,:].values[0:1000]
         timestamps = np.where(labels == 1)
         labels = labels[labels == 1]
         plt.plot(timestamps[0], labels*2, 'o', color='red', label=speaker+'_model')
-
+        plt.legend('ground truth', ' model ')
         plt.show()
 
 
@@ -229,14 +229,14 @@ def main():
     cudnn.benchmark = True
 
     #print(get_target_embeddings(num_embeddings=3,label_df=true_label_df,sample_list=args.s_file,model=model))
-    #anchor = get_average_embedding(window_size=3, num_embeddings=5, path=args.base_sample, model=model)
+    anchor = get_average_embedding(window_size=3, num_embeddings=5, path=args.base_sample, model=model)
     #print(diarize(get_target_embeddings(num_embeddings=3, label_df=true_label_df, sample_list=args.s_file, model=model), frame_list=true_frame_list,label_df=true_label_df, model=model,path=args.test_path,margin=20))
 
-    #speaker_label = args.base_sample[args.base_sample.rfind('_')+1:args.base_sample.rfind('.')]
-    #result = compare_embeddings(frame_list=true_frame_list, label_df=true_label_df, model=model, path=args.test_path,anchor=anchor,speaker_label=speaker_label,
-    #                   margin=0.45)
+    speaker_label = args.base_sample[args.base_sample.rfind('_')+1:args.base_sample.rfind('.')]
+    result = compare_embeddings(frame_list=true_frame_list, label_df=true_label_df, model=model, path=args.test_path,anchor=anchor,speaker_label=speaker_label,
+                       margin=0.45)
     #compare_track(model)
-    Plot_Results(true_label_df, df_model=diarize(get_target_embeddings(num_embeddings=3, label_df=true_label_df, sample_list=args.s_file, model=model), frame_list=true_frame_list,label_df=true_label_df, model=model,path=args.test_path,margin=20))
+    #Plot_Results(true_label_df, df_model=diarize(get_target_embeddings(num_embeddings=1, label_df=true_label_df, sample_list=args.s_file, model=model), frame_list=true_frame_list,label_df=true_label_df, model=model,path=args.test_path,margin=20))
 
 
     #negative_loader = torch.utils.data.DataLoader(Selective_Loader(base_path=args.base_path, sample_list=args.s_file,label='5',train=True,negative=True))
